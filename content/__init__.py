@@ -1,9 +1,8 @@
-from . import main, areas, stations, areas_and_stations, info
+from . import main, zones, districts, info
 
 PAGES = (
     [main.PAGE] +
-    areas.PAGES +
-    stations.PAGES +
-    areas_and_stations.PAGES +
+    zones.PAGES +
+    districts.PAGES +
     info.PAGES
 )

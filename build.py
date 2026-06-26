@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""안산 출장마사지 — 정적 사이트 빌드 스크립트.
+"""서울 출장마사지 — 정적 사이트 빌드 스크립트.
 
 content/ 패키지의 페이지 정의를 읽어 정적 HTML을 생성한다.
 
@@ -17,13 +17,13 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from content import PAGES
-from content.site import (BASE_URL, BRAND, NAV, PHONE, PHONE_DISPLAY)
+from content.site import (BASE_URL, BRAND, NAV, PHONE, PHONE_DISPLAY, AREA_REGION)
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 # Cloudflare Pages가 빌드를 실행하지 않고 저장소 루트를 그대로 배포하므로
 # 빌드 결과물을 저장소 루트에 직접 출력한다.
 PUBLIC_DIR = ROOT
-MIN_INDEX_CHARS = 2000
+MIN_INDEX_CHARS = 1000
 
 
 def text_length(body_html: str) -> int:
@@ -131,11 +131,10 @@ def make_org_schema() -> dict:
         "priceRange": "₩₩",
         "address": {
             "@type": "PostalAddress",
-            "addressRegion": "경기도",
-            "addressLocality": "안산시",
+            "addressRegion": AREA_REGION,
             "addressCountry": "KR",
         },
-        "areaServed": {"@type": "AdministrativeArea", "name": "경기도 안산시"},
+        "areaServed": {"@type": "AdministrativeArea", "name": AREA_REGION},
         "contactPoint": {
             "@type": "ContactPoint",
             "telephone": PHONE,
@@ -262,7 +261,7 @@ def render_page(page: dict) -> str:
   <div class="header-top">
     <div class="header-inner">
       <a class="brand" href="/"><span class="brand-mark">G</span> <span class="brand-text">{BRAND}</span></a>
-      <p class="header-tagline"><span class="tag-gem">◆</span> 안산시 전지역 방문 관리 <span class="tag-gem">◆</span> 24시간 상담</p>
+      <p class="header-tagline"><span class="tag-gem">◆</span> 서울 25개 구 전역 방문 관리 <span class="tag-gem">◆</span> 24시간 상담</p>
       <a class="header-call" href="tel:{PHONE}"><span class="call-label">예약전화</span> {PHONE_DISPLAY}</a>
       <button class="nav-toggle" aria-label="메뉴 열기" aria-expanded="false"><span></span><span></span><span></span></button>
     </div>
@@ -285,43 +284,42 @@ def render_page(page: dict) -> str:
   <div class="container footer-grid">
     <div class="footer-col footer-about">
       <p class="footer-brand">{BRAND}</p>
-      <p class="footer-desc">안산시 전지역 방문 출장마사지·홈타이 안내 사이트입니다. 모든 서비스는 안내된 관리 범위와 위생·안전 기준 안에서만 제공됩니다.</p>
+      <p class="footer-desc">서울특별시 25개 구 전역 방문 출장마사지·홈타이 안내 사이트입니다. 모든 서비스는 안내된 관리 범위와 위생·안전 기준 안에서만 제공됩니다.</p>
       <address class="footer-contact">
         <span class="footer-contact-row"><span class="footer-label">예약전화</span> <a href="tel:{PHONE}">{PHONE_DISPLAY}</a></span>
         <span class="footer-contact-row"><span class="footer-label">상담시간</span> 연중무휴 24시간</span>
-        <span class="footer-contact-row"><span class="footer-label">서비스 지역</span> 경기도 안산시 전지역</span>
+        <span class="footer-contact-row"><span class="footer-label">서비스 지역</span> 서울특별시 25개 구 전역</span>
       </address>
     </div>
     <nav class="footer-col" aria-label="서비스 안내">
       <p class="footer-title">서비스</p>
       <ul>
-        <li><a href="/">안산 출장마사지</a></li>
-        <li><a href="/sangnok-gu/">구별 안내</a></li>
-        <li><a href="/danwon-gu/jungang-dong/">지역별 안내</a></li>
-        <li><a href="/station/sangnoksu-station/">역세권 안내</a></li>
-        <li><a href="/area/jungang-gojan/">생활권 안내</a></li>
+        <li><a href="/seoul/">서울 출장마사지</a></li>
+        <li><a href="/seoul/district/">행정구 안내</a></li>
+        <li><a href="/seoul/station/">지하철역 안내</a></li>
+        <li><a href="/seoul/life/">생활권 안내</a></li>
       </ul>
     </nav>
     <nav class="footer-col" aria-label="이용 안내">
       <p class="footer-title">이용 안내</p>
       <ul>
-        <li><a href="/reservation/">예약안내</a></li>
-        <li><a href="/check/">이용 전 확인사항</a></li>
-        <li><a href="/support/">고객센터</a></li>
+        <li><a href="/seoul/reservation/">예약안내</a></li>
+        <li><a href="/seoul/check/">이용 전 확인사항</a></li>
+        <li><a href="/seoul/support/">고객센터</a></li>
       </ul>
     </nav>
     <nav class="footer-col" aria-label="정책 및 기준">
       <p class="footer-title">정책</p>
       <ul>
-        <li><a href="/support/privacy/">개인정보처리방침</a></li>
+        <li><a href="/seoul/support/privacy/">개인정보처리방침</a></li>
         <li><a href="https://t.me/googleseolab" target="_blank" rel="noopener nofollow">문의하기</a></li>
       </ul>
     </nav>
     <nav class="footer-col footer-official" aria-label="공식·공공 정보">
       <p class="footer-title">공식 정보</p>
       <ul>
-        <li><a href="https://www.ansan.go.kr/" target="_blank" rel="noopener">안산시청 공식 홈페이지</a></li>
-        <li><a href="https://www.gg.go.kr/" target="_blank" rel="noopener">경기도청</a></li>
+        <li><a href="https://www.seoul.go.kr/" target="_blank" rel="noopener">서울특별시청 공식 홈페이지</a></li>
+        <li><a href="https://www.seoulmetro.co.kr/" target="_blank" rel="noopener">서울교통공사</a></li>
         <li><a href="https://www.mohw.go.kr/" target="_blank" rel="noopener">보건복지부</a></li>
         <li><a href="https://www.kca.go.kr/" target="_blank" rel="noopener">한국소비자원</a></li>
       </ul>
