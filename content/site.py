@@ -9,6 +9,38 @@ PHONE_DISPLAY = "0508-202-4719"
 # 서비스 지역(스키마·푸터 공통)
 AREA_REGION = "서울특별시"
 
+# 코스 시간별 기본 요금 (전 페이지 공통)
+PRICE_COURSES = [
+    ("60분 코스", "90,000", "60분", "핵심 부위 위주 가벼운 이완", False),
+    ("90분 코스", "150,000", "90분", "전신 균형 표준 구성·아로마 포함", True),
+    ("120분 코스", "180,000", "120분", "구석구석 집중하는 프리미엄 구성", False),
+]
+
+
+def price_table(heading_level="h2"):
+    """코스 시간별 기본 요금표 HTML을 반환합니다. 모든 지역 페이지 공통."""
+    cards = []
+    for name, price, mins, note, featured in PRICE_COURSES:
+        badge = '<span class="price-badge">추천</span>' if featured else ""
+        cls = "price-card price-card-featured" if featured else "price-card"
+        cards.append(
+            f'<div class="{cls}">{badge}'
+            f'<div class="price-name">{name}</div>'
+            f'<div class="price-amount">{price}<span class="price-won">원</span></div>'
+            f'<div class="price-mins">{mins}</div>'
+            f'<div class="price-note">{note}</div>'
+            f'<a href="tel:{PHONE}" class="price-cta">예약 문의</a>'
+            f'</div>'
+        )
+    cards_html = "".join(cards)
+    return f"""<section class="price-section" id="price">
+  <{heading_level} class="price-title">코스 시간으로 보는 기본 요금</{heading_level}>
+  <p class="price-sub">관리 시간(60·90·120분)을 기준으로 정리한 기본 금액입니다. 표시되지 않은 별도 비용은 두지 않는 것을 원칙으로 안내합니다.</p>
+  <div class="price-grid">{cards_html}</div>
+  <p class="price-foot">방문 지역과 시간대, 이동 거리에 따라 최종 금액은 통화 시 확정됩니다. <a href="/reservation/">요금·예약 기준 자세히 보기 →</a></p>
+</section>"""
+
+
 # 상단 메뉴 — 키워드 반복 없음, 지역명·권역명만 표시
 NAV = [
     ("서울", "/", []),

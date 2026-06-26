@@ -1,6 +1,6 @@
 # 서울 정보·허브 페이지 (예약/확인/고객센터/개인정보/운영정보 + 역·생활권 인덱스)
 # 모든 페이지 색인(noindex 사용하지 않음) — 본문을 충분히 보강.
-from .site import BRAND, PHONE, AREA_REGION
+from .site import BRAND, PHONE, AREA_REGION, price_table
 from .seoul_data import ZONES, DISTRICTS
 
 
@@ -56,11 +56,12 @@ reservation = _page(
 
 <section><h2>예약 변경·취소 기준</h2>
 <p>예약 변경·취소는 가능한 한 빨리 전화로 알려주세요. 방문 직전 취소나 무단 취소는 일정 조정에 제약이 있을 수 있으므로, 변경이 필요한 경우 미리 연락 주시면 원활히 안내해 드립니다. 방문 전 확인할 사항은 <a href="/check/">이용 전 확인사항</a>에서 함께 확인하세요.</p></section>
-{_BYLINE}
+{price_table()}
 <section class="pricing">
-<h3>요금 안내</h3>
-<p>요금은 방문 지역, 시간대, 서비스 시간에 따라 달라집니다. 정확한 안내는 <a href="tel:{PHONE}">{PHONE}</a>로 문의하세요.</p>
+<h3>요금 안내 기준</h3>
+<p>위 금액은 관리 시간(60·90·120분) 기준 기본 요금이며, 표시되지 않은 별도 비용은 두지 않는 것을 원칙으로 합니다. 방문 지역과 시간대, 이동 거리에 따라 최종 금액은 통화 시 확정됩니다. 정확한 안내는 <a href="tel:{PHONE}">{PHONE}</a>로 문의하세요.</p>
 </section>
+{_BYLINE}
 """,
 )
 

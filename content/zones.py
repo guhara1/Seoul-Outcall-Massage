@@ -1,6 +1,6 @@
 # 서울 5대 권역 허브 페이지
 from .seoul_data import ZONES, DISTRICTS
-from .site import BRAND, PHONE
+from .site import BRAND, PHONE, price_table
 
 # 권역별 고유 안내 (복제 금지 — 권역 성격 반영)
 ZONE_GUIDES = {
@@ -52,6 +52,8 @@ def _zone_body(z):
 <p>{ZONE_GUIDES.get(z['slug'], '')}</p>
 <p>방문 전 자세한 사항은 <a href="/check/">이용 전 확인사항</a>과 <a href="/reservation/">예약 안내</a>를 참고하세요. 전체 행정구는 <a href="/district/">서울 25개 구 안내</a>에서 확인할 수 있습니다.</p>
 </section>
+
+{price_table()}
 
 <section id="source">
 <h2>{z['name']} 안내 정보 및 출처</h2>

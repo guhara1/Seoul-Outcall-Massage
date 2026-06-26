@@ -1,7 +1,7 @@
 # 서울 생활권 개별 페이지 (24개) + 생활권 인덱스 — 고유 본문, 전부 색인
 from .seoul_data import DISTRICTS, ZONES, _zone_of
 from .seoul_dongs import DONG_SLUGS
-from .site import BRAND, PHONE
+from .site import BRAND, PHONE, price_table
 
 # name, slug, gu_slug(대표), dongs[(gu_slug,name)], stations[(name,slug)], character(고유 2문장)
 LIFE = [
@@ -160,6 +160,8 @@ def _life_body(entry):
 <p>예약 시 정확한 주소(건물명·동·호수)와 희망 시간, 연락처를 알려주시면 도착 안내가 빠릅니다. 예약 방법은 <a href="/reservation/">예약 안내</a>, 방문 전 점검은 <a href="/check/">이용 전 확인사항</a>에서 확인할 수 있습니다.</p>
 </section>
 
+{price_table()}
+
 <section id="source">
 <h2>{name} 안내 정보 및 출처</h2>
 <p><strong>작성·운영</strong>: {BRAND} 고객센터 · <a href="tel:{PHONE}">{PHONE}</a> (연중무휴 24시간 상담). 본 페이지는 {name} 생활권 방문 예약 전 확인을 돕기 위한 안내입니다.</p>
@@ -209,6 +211,7 @@ LIFE_INDEX = {
 <p>아래 생활권을 클릭하면 포함 행정동, 가까운 역, 관련 행정구, 방문 예약 안내가 담긴 상세 페이지로 이동합니다.</p>
 <div class="card-grid">{_life_cards}</div>
 </section>
+{price_table()}
 """
 }
 

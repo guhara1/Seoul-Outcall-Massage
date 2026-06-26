@@ -2,7 +2,7 @@
 # 환승역도 역명 기준 1개 URL, 출구별 페이지 없음.
 from .seoul_data import DISTRICTS, ZONES, _zone_of
 from .seoul_dongs import DONG_SLUGS
-from .site import BRAND, PHONE
+from .site import BRAND, PHONE, price_table
 
 # name, slug, lines, gu_slug, dongs[name], (life_name, life_slug), note(고유 1문장)
 STATIONS = [
@@ -155,6 +155,8 @@ def _station_body(entry):
 <p>예약 시 {name} 기준 정확한 주소(건물명·동·호수)와 희망 시간, 연락처를 알려주시면 도착 안내가 빠릅니다. 예약 방법은 <a href="/reservation/">예약 안내</a>, 방문 전 점검은 <a href="/check/">이용 전 확인사항</a>에서 확인할 수 있습니다.</p>
 </section>
 
+{price_table()}
+
 <section id="source">
 <h2>{name} 안내 정보 및 출처</h2>
 <p><strong>작성·운영</strong>: {BRAND} 고객센터 · <a href="tel:{PHONE}">{PHONE}</a> (연중무휴 24시간 상담). 본 페이지는 {name} 일대 방문 예약 전 확인을 돕기 위한 역세권 안내입니다.</p>
@@ -205,6 +207,7 @@ STATION_INDEX = {
 <p>아래 역을 클릭하면 노선·환승, 인접 행정동, 관련 생활권, 방문 예약 안내가 담긴 상세 페이지로 이동합니다.</p>
 <div class="card-grid">{_station_cards}</div>
 </section>
+{price_table()}
 """
 }
 

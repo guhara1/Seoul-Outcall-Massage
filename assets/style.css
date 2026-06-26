@@ -1161,3 +1161,91 @@ body::before {
 @media (max-width: 720px) {
   .page-content article > section { padding: 18px 16px; }
 }
+
+/* ===== 코스 시간별 기본 요금표 (전 페이지 공통) ===== */
+.price-section {
+  text-align: center;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-lg);
+  padding: 40px 28px;
+  margin: 32px 0;
+  background:
+    radial-gradient(120% 80% at 50% 0%, rgba(216, 181, 110, 0.08), transparent 60%),
+    linear-gradient(180deg, rgba(21, 27, 44, 0.55), rgba(9, 13, 24, 0.45));
+}
+.price-title {
+  font-size: clamp(1.4rem, 3vw, 1.9rem);
+  margin: 0 0 12px;
+  background: linear-gradient(120deg, var(--gold-soft), var(--champagne) 50%, var(--gold));
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.price-title::before { display: none !important; }
+.price-sub {
+  max-width: 620px; margin: 0 auto 28px;
+  color: var(--text-dim); font-size: 0.95rem; line-height: 1.7;
+}
+.price-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 18px; max-width: 920px; margin: 0 auto;
+}
+.price-card {
+  position: relative;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+  padding: 32px 22px 26px;
+  background: linear-gradient(180deg, rgba(21, 27, 44, 0.7), rgba(12, 16, 28, 0.6));
+  display: flex; flex-direction: column; align-items: center;
+  transition: transform var(--transition), border-color var(--transition);
+}
+.price-card:hover { transform: translateY(-4px); border-color: rgba(216, 181, 110, 0.4); }
+.price-card-featured {
+  border: 1.5px solid var(--gold);
+  background:
+    radial-gradient(120% 90% at 50% 0%, rgba(216, 181, 110, 0.16), transparent 65%),
+    linear-gradient(180deg, rgba(30, 36, 56, 0.8), rgba(15, 20, 34, 0.7));
+  box-shadow: 0 10px 40px rgba(216, 181, 110, 0.14);
+}
+.price-badge {
+  position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+  background: linear-gradient(135deg, var(--champagne), var(--gold) 60%, var(--gold-deep));
+  color: #2a1e07; font-weight: 800; font-size: 0.78rem;
+  padding: 5px 18px; border-radius: 999px; letter-spacing: 0.05em;
+  box-shadow: 0 4px 14px rgba(216, 181, 110, 0.4);
+}
+.price-name { font-size: 1.1rem; font-weight: 700; color: var(--text); margin-bottom: 14px; }
+.price-amount {
+  font-size: clamp(1.8rem, 4vw, 2.3rem); font-weight: 800; color: var(--text);
+  line-height: 1; margin-bottom: 8px;
+}
+.price-card-featured .price-amount {
+  background: linear-gradient(120deg, var(--gold-soft), var(--champagne) 50%, var(--gold));
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.price-won { font-size: 0.9rem; font-weight: 600; color: var(--text-dim); margin-left: 3px; }
+.price-mins { font-size: 0.85rem; font-weight: 700; color: var(--gold); margin-bottom: 14px; letter-spacing: 0.05em; }
+.price-note { font-size: 0.88rem; color: var(--text-dim); margin-bottom: 22px; line-height: 1.5; min-height: 2.4em; }
+.price-cta {
+  width: 100%; padding: 12px 0; border-radius: 999px;
+  font-weight: 700; font-size: 0.92rem; margin-top: auto;
+  border: 1px solid rgba(216, 181, 110, 0.45); color: var(--gold-soft);
+  background: rgba(216, 181, 110, 0.06); transition: all var(--transition);
+}
+.price-cta:hover { background: rgba(216, 181, 110, 0.16); color: var(--gold-soft); }
+.price-card-featured .price-cta {
+  border: none; color: #2a1e07;
+  background: linear-gradient(135deg, var(--champagne), var(--gold) 55%, var(--gold-deep));
+  box-shadow: 0 6px 20px rgba(216, 181, 110, 0.35);
+}
+.price-card-featured .price-cta:hover { color: #2a1e07; filter: brightness(1.06); }
+.price-foot {
+  margin: 26px auto 0; max-width: 640px;
+  color: var(--text-mute); font-size: 0.85rem; line-height: 1.6;
+}
+.price-foot a { color: var(--gold-soft); font-weight: 600; }
+@media (max-width: 720px) {
+  .price-grid { grid-template-columns: 1fr; gap: 22px; }
+  .price-section { padding: 30px 16px; }
+  .price-note { min-height: 0; }
+}

@@ -8,7 +8,7 @@
 #    얇은 위치 페이지가 대량 색인되어 사이트 단위 품질 신호를 떨어뜨리는
 #    도어웨이 위험을 피하고, 본문이 1,500자 이상으로 보강된 동부터 색인한다.
 from .seoul_data import DISTRICTS, DISTRICT_ORDER, _zone_of
-from .site import PHONE, BRAND
+from .site import PHONE, BRAND, price_table
 
 # 행정동 이름 → URL 슬러그 (구 경로 하위라 구 간 중복은 무방)
 DONG_SLUGS = {
@@ -320,10 +320,11 @@ def _make_dong_page(gu_slug, d, name, desc):
     slug = DONG_SLUGS[name]
     gu_name = d["name"]
     rich = DONG_CONTENT.get((gu_slug, name))
+    pt = price_table()
     if rich:
-        body = rich + _tail_sections(gu_slug, d, name) + _sources_section(gu_slug, gu_name, name)
+        body = rich + _tail_sections(gu_slug, d, name) + pt + _sources_section(gu_slug, gu_name, name)
     else:
-        body = _auto_body(gu_slug, d, name, desc) + _tail_sections(gu_slug, d, name) + _sources_section(gu_slug, gu_name, name)
+        body = _auto_body(gu_slug, d, name, desc) + _tail_sections(gu_slug, d, name) + pt + _sources_section(gu_slug, gu_name, name)
     return {
         "path": f"{gu_slug}/{slug}/",
         "title": f"{name} 출장마사지·홈타이｜{gu_name} 생활권 방문 안내",

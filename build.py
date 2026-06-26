@@ -185,6 +185,7 @@ def make_breadcrumb_schema(crumbs) -> dict:
 def make_webpage_schema(title: str, desc: str, canonical: str) -> dict:
     """페이지 단위 WebPage 스키마."""
     base = BASE_URL.rstrip("/")
+    img_url = base + "/assets/og-image.png"
     return {
         "@context": "https://schema.org",
         "@type": "WebPage",
@@ -194,6 +195,15 @@ def make_webpage_schema(title: str, desc: str, canonical: str) -> dict:
         "inLanguage": "ko",
         "isPartOf": {"@id": base + "/#organization"},
         "publisher": {"@id": base + "/#organization"},
+        "primaryImageOfPage": {
+            "@type": "ImageObject",
+            "url": img_url,
+            "width": 1200,
+            "height": 630,
+            "caption": f"{BRAND} 서울 출장마사지·홈타이 방문 예약 안내",
+        },
+        "image": img_url,
+        "thumbnailUrl": img_url,
     }
 
 
@@ -254,10 +264,17 @@ def render_page(page: dict) -> str:
 <meta property="og:url" content="{canonical}">
 <meta property="og:site_name" content="{BRAND}">
 <meta property="og:image" content="{BASE_URL.rstrip('/')}/assets/og-image.png">
+<meta property="og:image:secure_url" content="{BASE_URL.rstrip('/')}/assets/og-image.png">
+<meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="{BRAND} 서울 출장마사지·홈타이 방문 예약 안내">
+<meta property="og:locale" content="ko_KR">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{title}">
+<meta name="twitter:description" content="{desc}">
 <meta name="twitter:image" content="{BASE_URL.rstrip('/')}/assets/og-image.png">
+<meta name="twitter:image:alt" content="{BRAND} 서울 출장마사지·홈타이 방문 예약 안내">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=2">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png?v=2">
 <link rel="icon" href="/favicon.ico?v=2" sizes="48x48">

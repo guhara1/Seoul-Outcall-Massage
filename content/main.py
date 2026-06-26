@@ -1,5 +1,5 @@
 import json
-from .site import BRAND, BASE_URL, PHONE, AREA_REGION
+from .site import BRAND, BASE_URL, PHONE, AREA_REGION, price_table
 from .seoul_data import ZONES, DISTRICTS, DISTRICT_ORDER
 
 _BASE = BASE_URL.rstrip("/")
@@ -124,6 +124,8 @@ PAGE = {
   <p>서울특별시는 25개 구로 나뉘는 행정구역이 명확하지만, 실제 검색과 이용은 강남·홍대·여의도·성수·목동·연신내처럼 생활권 단어를 중심으로 움직입니다. 같은 강남구 안에서도 강남역, 역삼, 삼성, 청담은 이용 목적과 이동 기준이 서로 다르고, 송파구도 잠실, 문정, 가락, 위례는 같은 구 안에서 예약 기준이 다릅니다.</p>
   <p>그래서 이 사이트는 행정구, 행정동, 지하철역, 생활권을 따로 분리해 안내합니다. 먼저 서울을 5대 권역으로 나누고, 그 안에서 25개 구와 대표 행정동, 역세권, 생활권을 순서대로 확인할 수 있도록 구성했습니다. 본인 위치의 권역과 구, 가까운 역, 생활권을 차례로 확인하면 방문 주소와 예약 시간을 정확히 잡을 수 있습니다.</p>
 </section>
+
+{price_table()}
 
 <section id="zones">
   <h2>서울 권역별 방문 가능 지역 안내</h2>

@@ -1,5 +1,5 @@
 # 이용 목적별 안내 — 6개 + 인덱스 (주제형 고유 콘텐츠, 색인 대상)
-from .site import PHONE
+from .site import PHONE, price_table
 
 _BTN = (
     '<p>예약과 자세한 확인은 <a href="/reservation/">예약 안내</a>와 '
@@ -15,7 +15,7 @@ def _page(path, title, desc, h1, body):
         "desc": desc,
         "h1": h1,
         "breadcrumb": [("서울", "/"), ("이용 목적별 안내", "/purpose/"), (h1, "")],
-        "body": body + _BTN,
+        "body": body + price_table() + _BTN,
         "noindex": False,  # 고유 주제형 페이지 — 글자수 게이트와 무관하게 색인
     }
 
@@ -171,6 +171,7 @@ index = {
 <p>서울 출장마사지·홈타이는 방문 장소와 목적에 따라 출입 절차와 예약 기준이 다릅니다. 자택, 호텔·숙소, 오피스텔, 업무지구, 야간, 외국인 숙소 인접권으로 나누어 확인할 사항을 정리했습니다. 본인 상황에 맞는 안내를 먼저 확인하면 예약이 한결 정확해집니다. 각 항목을 클릭하면 장소별 출입 방식과 예약 전 점검 사항, 관련 생활권을 자세히 확인할 수 있습니다.</p>
 <div class="card-grid">{_index_cards}</div>
 </section>
+{price_table()}
 {_BTN}
 """
 }
