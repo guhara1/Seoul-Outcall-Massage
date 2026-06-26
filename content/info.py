@@ -252,4 +252,4 @@ life_index = _page(
 """,
 )
 
-PAGES = [reservation, check, support, about, privacy, station_index, life_index]
+PAGES = [reservation, check, support, about, privacy]
