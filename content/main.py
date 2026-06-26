@@ -1,5 +1,6 @@
 import json
-from .site import BRAND, BASE_URL, PHONE, AREA_REGION, price_table
+from .site import (BRAND, BASE_URL, PHONE, AREA_REGION, price_table,
+                   NAVER_SITE_VERIFICATION, GOOGLE_SITE_VERIFICATION)
 from .seoul_data import ZONES, DISTRICTS, DISTRICT_ORDER
 
 _BASE = BASE_URL.rstrip("/")
@@ -64,7 +65,13 @@ _breadcrumb_schema = {
 }
 _breadcrumb_schema_str = json.dumps(_breadcrumb_schema, ensure_ascii=False, indent=2)
 
-_EXTRA_HEAD = f"""<script type="application/ld+json">
+_verify_meta = ""
+if NAVER_SITE_VERIFICATION:
+    _verify_meta += f'<meta name="naver-site-verification" content="{NAVER_SITE_VERIFICATION}">\n'
+if GOOGLE_SITE_VERIFICATION:
+    _verify_meta += f'<meta name="google-site-verification" content="{GOOGLE_SITE_VERIFICATION}">\n'
+
+_EXTRA_HEAD = f"""{_verify_meta}<script type="application/ld+json">
 {_org_schema_str}
 </script>
 <script type="application/ld+json">

@@ -78,9 +78,36 @@ URL에는 chuljangmassage·hometai·massage를 붙이지 않으며, 메뉴명에
 - 🔄 핵심 행정동에 1차 경험형 심화 본문(랜드마크·역사 등) 추가로 정보 이득 강화
 - 🔄 나머지 행정동(전체 427개) 단계적 추가
 
-## 배포 전 할 일
+## 검색 색인(인덱싱) 설정
 
-1. `content/site.py`의 `BASE_URL`을 실제 도메인으로 변경
+빌드 시 자동 생성되는 파일:
+- `sitemap.xml` — 전 색인 페이지 + `lastmod`·`changefreq`·`priority`
+- `feed.xml` — RSS 2.0 피드(색인 발견 가속), 전 페이지 `<head>`에 `alternate` 링크
+- `robots.txt` — 전 봇 허용 + 네이버 `Yeti`·`Googlebot`·`bingbot` 명시 + Sitemap 경로
+- `{INDEXNOW_KEY}.txt` — IndexNow 키 파일(루트 노출)
+- 메인 페이지 `<head>`에 `naver-site-verification` 메타(소유확인)
+
+### IndexNow — 빙·네이버 즉시 색인 통보
+`content/site.py`의 `INDEXNOW_KEY`로 키 파일이 발행됩니다. 배포(키 파일이 도메인에서 접근 가능)된 뒤:
+
+```bash
+python3 tools/indexnow.py                 # 첫 일괄: sitemap 전체 URL 통보
+python3 tools/indexnow.py <URL> [<URL>…]  # 글 올릴 때마다 해당 URL만 통보
+```
+한 번 제출하면 IndexNow 참여 엔진(Bing·Naver·Yandex·Seznam)에 공유됩니다.
+
+### 구글 — Indexing API(선택, 구글은 IndexNow 미참여)
+서비스 계정 + Search Console 소유자 등록 후:
+```bash
+GOOGLE_SA_JSON=/path/sa.json python3 tools/google_indexing.py
+```
+(공식 지원은 JobPosting·BroadcastEvent. 일반 페이지는 sitemap+Search Console이 기본, 일 200건 쿼터)
+
+## 배포 전·후 할 일
+
+1. `content/site.py`의 `BASE_URL`이 실제 도메인인지 확인 (현재 `seoul-outcall-massage.pages.dev`)
 2. `python3 build.py` 재실행
-3. Google Search Console에 `sitemap.xml` 제출
-4. GSC 노출·문의 데이터를 보고 행정동·역·생활권 페이지 2차 작성
+3. 배포 후 **네이버 서치어드바이저**: 사이트 등록(메인 메타로 소유확인) → `sitemap.xml`·`feed.xml` 제출
+4. 배포 후 **구글 Search Console**: 속성 추가 → `sitemap.xml` 제출
+5. 배포 후 `python3 tools/indexnow.py` 1회 실행(빙·네이버 즉시 통보)
+6. GSC/서치어드바이저 노출·문의 데이터로 행정동·역·생활권 2차 작성

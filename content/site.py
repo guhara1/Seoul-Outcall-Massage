@@ -9,6 +9,13 @@ PHONE_DISPLAY = "0508-202-4719"
 # 서비스 지역(스키마·푸터 공통)
 AREA_REGION = "서울특별시"
 
+# 검색엔진 사이트 소유확인
+NAVER_SITE_VERIFICATION = "b8738498666eaf202faaeff7f57fe68b9df4f470"
+GOOGLE_SITE_VERIFICATION = ""  # 구글 서치콘솔 메타 확인 코드(있으면 입력)
+
+# IndexNow 키 (빙·네이버 즉시 색인 통보용) — /{KEY}.txt 파일로 노출
+INDEXNOW_KEY = "e0b8a03814f46001b136d56ee655b57c"
+
 # 코스 시간별 기본 요금 (전 페이지 공통)
 PRICE_COURSES = [
     ("60분 코스", "90,000", "60분", "핵심 부위 위주 가벼운 이완", False),
