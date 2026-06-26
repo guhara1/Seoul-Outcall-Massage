@@ -1,5 +1,6 @@
 # 서울 25개 행정구 페이지 + 행정구 인덱스
 from .seoul_data import DISTRICTS, DISTRICT_ORDER, ZONE_BY_SLUG, _zone_of
+from .seoul_dongs import DONG_SLUGS
 
 # 구별 고유 예약·방문 팁 (지역명만 바꾼 복제 금지 — 각 구 특성 반영)
 GUIDES = {
@@ -33,29 +34,32 @@ GUIDES = {
 
 def _district_body(gu_slug, d):
     zone_slug, zone_name = _zone_of(gu_slug)
-    zone_url = f"/seoul/zone/{zone_slug}/"
+    zone_url = f"/zone/{zone_slug}/"
 
     dong_items = "".join(
-        f"<li><strong>{name}</strong> — {desc}</li>" for name, desc in d["dongs"]
+        (f'<li><a href="/{gu_slug}/{DONG_SLUGS[name]}/"><strong>{name}</strong></a> — {desc}</li>'
+         if name in DONG_SLUGS
+         else f"<li><strong>{name}</strong> — {desc}</li>")
+        for name, desc in d["dongs"]
     )
     stations_txt = ", ".join(d["stations"])
     life_items = "".join(
-        f'<li><a href="/seoul/life/">{life}</a></li>' for life in d["life"]
+        f'<li><a href="/life/">{life}</a></li>' for life in d["life"]
     )
     adj_items = "".join(
-        f'<li><a href="/seoul/{slug}/">{name} 출장마사지 안내</a></li>'
+        f'<li><a href="/{slug}/">{name} 출장마사지 안내</a></li>'
         for name, slug in d["adjacent"]
     )
 
     return f"""
 <section id="intro">
-<h2>{d['name']} 출장마사지·홈타이 지역 안내</h2>
+<h2>{d['name']} 생활권 한눈에 보기</h2>
 {d['intro']}
 </section>
 
 <section id="dongs">
-<h2>{d['name']} 주요 행정동 생활권</h2>
-<p>{d['name']}의 주요 행정동과 생활권 특성은 다음과 같습니다. 본인 위치의 행정동을 먼저 확인하면 방문 주소와 가까운 역을 잡기 쉽습니다.</p>
+<h2>{d['name']} 행정동별 안내 (클릭 시 상세)</h2>
+<p>{d['name']}의 주요 행정동과 생활권 특성은 다음과 같습니다. 각 행정동을 클릭하면 가까운 역, 인접 행정동, 예약 전 확인사항이 담긴 상세 페이지로 이동합니다.</p>
 <ul>{dong_items}</ul>
 </section>
 
@@ -73,7 +77,7 @@ def _district_body(gu_slug, d):
 <section id="character">
 <h2>{d['name']} 지역 특성과 방문 안내</h2>
 {d['character']}
-<p>방문 전 정확한 주소와 건물 유형, 예약 가능 시간을 확인하고, 자세한 사항은 <a href="/seoul/check/">이용 전 확인사항</a>과 <a href="/seoul/reservation/">예약 안내</a>를 참고하세요.</p>
+<p>방문 전 정확한 주소와 건물 유형, 예약 가능 시간을 확인하고, 자세한 사항은 <a href="/check/">이용 전 확인사항</a>과 <a href="/reservation/">예약 안내</a>를 참고하세요.</p>
 </section>
 
 <section id="guide">
@@ -85,7 +89,7 @@ def _district_body(gu_slug, d):
 <h2>{d['name']} 인접 지역 안내</h2>
 <p>{d['name']}과(와) 생활권이 이어지는 인접 구 안내도 함께 확인하세요. 같은 <a href="{zone_url}">{zone_name}</a> 권역 안에서 방문 가능 지역을 넓게 볼 수 있습니다.</p>
 <ul>{adj_items}</ul>
-<p>전체 행정구는 <a href="/seoul/district/">서울 25개 구 안내</a>에서 확인할 수 있습니다.</p>
+<p>전체 행정구는 <a href="/district/">서울 25개 구 안내</a>에서 확인할 수 있습니다.</p>
 </section>
 """
 
@@ -94,13 +98,13 @@ def _make_district_page(gu_slug):
     d = DISTRICTS[gu_slug]
     zone_slug, zone_name = _zone_of(gu_slug)
     return {
-        "path": f"seoul/{gu_slug}/",
+        "path": f"{gu_slug}/",
         "title": d["title"],
         "desc": d["desc"],
         "h1": f"{d['name']} 출장마사지",
         "breadcrumb": [
-            ("서울", "/seoul/"),
-            (zone_name, f"/seoul/zone/{zone_slug}/"),
+            ("서울", "/"),
+            (zone_name, f"/zone/{zone_slug}/"),
             (d["name"], ""),
         ],
         "body": _district_body(gu_slug, d),
@@ -110,35 +114,35 @@ def _make_district_page(gu_slug):
 DISTRICT_PAGES = [_make_district_page(slug) for slug in DISTRICT_ORDER]
 
 
-# ── 행정구 인덱스 (/seoul/district/) ──
+# ── 행정구 인덱스 (/district/) ──
 def _district_index_body():
     from .seoul_data import ZONES
     blocks = []
     for z in ZONES:
         cards = "".join(
-            f'<a href="/seoul/{slug}/" class="card"><h3>{DISTRICTS[slug]["name"]}</h3>'
+            f'<a href="/{slug}/" class="card"><h3>{DISTRICTS[slug]["name"]}</h3>'
             f'<p>{DISTRICTS[slug]["life"][0]} 등 {len(DISTRICTS[slug]["dongs"])}개 행정동 생활권</p></a>'
             for slug in z["districts"]
         )
         blocks.append(
             f'<section><h2>{z["name"]} 행정구</h2>'
             f'<p>{z["name"]}에 속한 행정구별 출장마사지·홈타이 방문 안내입니다. '
-            f'<a href="/seoul/zone/{z["slug"]}/">{z["name"]} 권역 안내</a>도 함께 확인하세요.</p>'
+            f'<a href="/zone/{z["slug"]}/">{z["name"]} 권역 안내</a>도 함께 확인하세요.</p>'
             f'<div class="card-grid">{cards}</div></section>'
         )
     return "\n".join(blocks)
 
 
 DISTRICT_INDEX = {
-    "path": "seoul/district/",
+    "path": "district/",
     "title": "서울 25개 구 출장마사지｜행정구별 홈타이 안내",
     "desc": "서울 25개 구 출장마사지·홈타이 안내. 강남, 송파, 마포, 영등포 등 구별 생활권 확인.",
     "h1": "서울 25개 구별 출장마사지 안내",
-    "breadcrumb": [("서울", "/seoul/"), ("행정구 안내", "")],
+    "breadcrumb": [("서울", "/"), ("행정구 안내", "")],
     "body": f"""
 <section id="district-intro">
 <h2>서울 행정구별 안내</h2>
-<p>서울특별시 25개 구를 5대 권역으로 나누어 안내합니다. 각 구의 대표 행정동, 지하철역, 생활권을 확인하고 본인 위치에 맞는 방문 지역을 찾으세요. 서울은 행정구가 명확하지만 실제 검색과 이용은 생활권 중심으로 움직이므로, 구 안내와 함께 <a href="/seoul/life/">생활권 안내</a>를 함께 보면 더 정확합니다.</p>
+<p>서울특별시 25개 구를 5대 권역으로 나누어 안내합니다. 각 구의 대표 행정동, 지하철역, 생활권을 확인하고 본인 위치에 맞는 방문 지역을 찾으세요. 서울은 행정구가 명확하지만 실제 검색과 이용은 생활권 중심으로 움직이므로, 구 안내와 함께 <a href="/life/">생활권 안내</a>를 함께 보면 더 정확합니다.</p>
 </section>
 {_district_index_body()}
 """

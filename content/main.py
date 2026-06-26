@@ -37,7 +37,7 @@ _org_schema = {
     "@type": "HealthAndBeautyBusiness",
     "name": BRAND,
     "telephone": PHONE,
-    "url": _BASE + "/seoul/",
+    "url": _BASE + "/",
     "image": _BASE + "/assets/og-image.png",
     "description": "서울 출장마사지·홈타이 생활권별 안내 사이트",
     "priceRange": "₩₩",
@@ -60,7 +60,6 @@ _breadcrumb_schema = {
     "@type": "BreadcrumbList",
     "itemListElement": [
         {"@type": "ListItem", "position": 1, "name": "홈", "item": _BASE + "/"},
-        {"@type": "ListItem", "position": 2, "name": "서울", "item": _BASE + "/seoul/"},
     ],
 }
 _breadcrumb_schema_str = json.dumps(_breadcrumb_schema, ensure_ascii=False, indent=2)
@@ -78,14 +77,14 @@ _EXTRA_HEAD = f"""<script type="application/ld+json">
 _HERO = """<div class="hero">
   <div class="hero-content">
     <div class="hero-badge">서울 25개 구 생활권별 방문 안내</div>
-    <h1 class="hero-title">서울 출장마사지<br><span class="hero-accent">서울 홈타이</span><br>생활권별 예약 안내</h1>
+    <h1 class="hero-title">서울 출장마사지<br><span class="hero-accent">홈타이</span><br>생활권별 예약 안내</h1>
     <p class="hero-lead">강남, 잠실, 홍대, 여의도, 성수, 용산, 목동, 연신내 등 서울 주요 생활권별 방문 가능 지역과 예약 전 확인사항을 안내합니다.</p>
     <div class="hero-cta">
       <a href="#zones" class="btn btn-primary">권역별 보기</a>
-      <a href="/seoul/district/" class="btn btn-secondary">행정구 찾기</a>
-      <a href="/seoul/station/" class="btn btn-secondary">지하철역 찾기</a>
-      <a href="/seoul/life/" class="btn btn-secondary">생활권 찾기</a>
-      <a href="/seoul/reservation/" class="btn btn-secondary">예약 안내 보기</a>
+      <a href="/district/" class="btn btn-secondary">행정구 찾기</a>
+      <a href="/station/" class="btn btn-secondary">지하철역 찾기</a>
+      <a href="/life/" class="btn btn-secondary">생활권 찾기</a>
+      <a href="/reservation/" class="btn btn-secondary">예약 안내 보기</a>
     </div>
   </div>
   <div class="hero-stats">
@@ -98,7 +97,7 @@ _HERO = """<div class="hero">
 
 # 5대 권역 카드
 _zone_cards = "".join(
-    f'<a href="/seoul/zone/{z["slug"]}/" class="card"><h3>{z["name"]}</h3>'
+    f'<a href="/zone/{z["slug"]}/" class="card"><h3>{z["name"]}</h3>'
     f'<p>{", ".join(DISTRICTS[s]["name"] for s in z["districts"][:4])} 등</p>'
     f'<span class="card-arrow">→</span></a>'
     for z in ZONES
@@ -106,18 +105,18 @@ _zone_cards = "".join(
 
 # 25개 구 카드
 _district_cards = "".join(
-    f'<a href="/seoul/{slug}/" class="card"><h3>{DISTRICTS[slug]["name"]}</h3>'
+    f'<a href="/{slug}/" class="card"><h3>{DISTRICTS[slug]["name"]}</h3>'
     f'<p>{DISTRICTS[slug]["life"][0]} 생활권</p></a>'
     for slug in DISTRICT_ORDER
 )
 
 PAGE = {
-    "path": "seoul/",
+    "path": "",
     "title": "서울 출장마사지｜강남·잠실·홍대·여의도·성수 홈타이 안내",
     "desc": DESC,
     "h1": "서울 출장마사지 · 생활권별 홈타이 예약 안내",
     "hero": _HERO,
-    "breadcrumb": [("서울", "/seoul/")],
+    "breadcrumb": [],
     "extra_head": _EXTRA_HEAD,
     "body": f"""
 <section id="criteria">
@@ -134,13 +133,13 @@ PAGE = {
 
 <section id="districts">
   <h2>서울 25개 구별 안내</h2>
-  <p>행정구별 대표 행정동, 지하철역, 생활권을 확인하세요. 전체 목록은 <a href="/seoul/district/">서울 25개 구 안내</a>에서 볼 수 있습니다.</p>
+  <p>행정구별 대표 행정동, 지하철역, 생활권을 확인하세요. 전체 목록은 <a href="/district/">서울 25개 구 안내</a>에서 볼 수 있습니다.</p>
   <div class="card-grid">{_district_cards}</div>
 </section>
 
 <section id="stations">
   <h2>서울 주요 지하철역별 안내</h2>
-  <p>강남역, 잠실역, 홍대입구역, 여의도역, 성수역, 용산역 등 주요 역을 기준으로 인접 생활권과 예약 기준을 안내합니다. 역명 기준 안내는 <a href="/seoul/station/">지하철역 안내</a>에서 단계적으로 제공됩니다.</p>
+  <p>강남역, 잠실역, 홍대입구역, 여의도역, 성수역, 용산역 등 주요 역을 기준으로 인접 생활권과 예약 기준을 안내합니다. 역명 기준 안내는 <a href="/station/">지하철역 안내</a>에서 단계적으로 제공됩니다.</p>
   <ul>
     <li><strong>강남역</strong> — 역삼동, 서초동, 신논현 인접 생활권. 오피스텔·호텔·자택 이용 여부를 먼저 확인하세요.</li>
     <li><strong>잠실역</strong> — 잠실동, 석촌동, 방이동 인접 생활권. 방문 주소와 건물 출입 가능 여부를 확인하세요.</li>
@@ -159,7 +158,7 @@ PAGE = {
     <li><strong>야간 예약</strong> — 야간 방문 가능 시간과 추가 안내 확인</li>
     <li><strong>외국인 숙소 인접권</strong> — 이태원·한남 등 숙소 인접권의 예약·출입 기준 확인</li>
   </ul>
-  <p>자세한 사항은 <a href="/seoul/check/">이용 전 확인사항</a>과 <a href="/seoul/reservation/">예약 안내</a>를 참고하세요.</p>
+  <p>자세한 사항은 <a href="/check/">이용 전 확인사항</a>과 <a href="/reservation/">예약 안내</a>를 참고하세요.</p>
 </section>
 
 <section id="faq">

@@ -13,18 +13,18 @@ def _page(path, title, desc, h1, breadcrumb, body, noindex=False):
 
 # ===== 예약 안내 =====
 reservation = _page(
-    "seoul/reservation/",
+    "reservation/",
     "예약 안내｜서울 출장마사지·홈타이 예약 방법",
     "서울 출장마사지·홈타이 예약 방법, 필요한 정보, 취소 기준을 확인하세요.",
     "서울 출장마사지 예약 안내",
-    [("서울", "/seoul/"), ("예약 안내", "")],
+    [("서울", "/"), ("예약 안내", "")],
     f"""
 <section><h2>예약 방법</h2>
 <p>{BRAND}의 서울 출장마사지·홈타이 예약은 전화 상담으로 진행됩니다. 방문 가능 지역과 시간을 확인한 뒤 예약을 확정합니다.</p>
 <ul>
 <li><strong>전화 예약</strong>: <a href="tel:{PHONE}">{PHONE}</a> (연중무휴 24시간 상담)</li>
 <li><strong>예약 확인</strong>: 전화 통화로 즉시 확인</li>
-<li><strong>방문 지역</strong>: 서울 25개 구 전역 (<a href="/seoul/district/">행정구 안내</a> 참고)</li>
+<li><strong>방문 지역</strong>: 서울 25개 구 전역 (<a href="/district/">행정구 안내</a> 참고)</li>
 </ul></section>
 
 <section><h2>예약 시 필요한 정보</h2>
@@ -39,7 +39,7 @@ reservation = _page(
 
 <section><h2>예약 변경·취소 기준</h2>
 <p>예약 변경·취소는 가능한 한 빨리 전화로 알려주세요. 방문 직전 취소나 무단 취소는 일정 조정에 제약이 있을 수 있으므로, 변경이 필요한 경우 미리 연락 주시면 원활히 안내해 드립니다.</p>
-<p>방문 전 확인할 사항은 <a href="/seoul/check/">이용 전 확인사항</a>에서 함께 확인하세요.</p></section>
+<p>방문 전 확인할 사항은 <a href="/check/">이용 전 확인사항</a>에서 함께 확인하세요.</p></section>
 
 <section class="pricing">
 <h3>요금 안내</h3>
@@ -50,11 +50,11 @@ reservation = _page(
 
 # ===== 이용 전 확인사항 =====
 check = _page(
-    "seoul/check/",
+    "check/",
     "이용 전 확인사항｜서울 출장마사지·홈타이",
     "서울 출장마사지·홈타이 예약 전 주소, 시간, 출입, 결제, 개인정보 확인사항 안내.",
     "이용 전 확인사항",
-    [("서울", "/seoul/"), ("이용 전 확인사항", "")],
+    [("서울", "/"), ("이용 전 확인사항", "")],
     f"""
 <section><h2>예약 전 확인사항</h2>
 <p>안전하고 원활한 방문을 위해 예약 전 아래 항목을 미리 확인해 주세요. 항목을 정확히 확인할수록 방문 시간과 동선이 정확해집니다.</p>
@@ -65,22 +65,22 @@ check = _page(
 <li><strong>이용 장소 기준 확인</strong> — 자택·숙소·오피스텔 등 서비스 제공 장소 기준</li>
 <li><strong>결제 방식 확인</strong> — 가능한 결제 수단</li>
 <li><strong>예약 변경·취소 기준 확인</strong> — 변경·취소 절차</li>
-<li><strong>개인정보 처리 기준 확인</strong> — 개인정보 수집·이용·보관 방식 (<a href="/seoul/support/privacy/">개인정보처리방침</a>)</li>
+<li><strong>개인정보 처리 기준 확인</strong> — 개인정보 수집·이용·보관 방식 (<a href="/support/privacy/">개인정보처리방침</a>)</li>
 </ul></section>
 
 <section><h2>건전한 서비스 운영 안내</h2>
 <p>{BRAND}는 건전한 방문 관리 서비스만 운영하며, 불법·선정적 서비스 요청에는 어떤 경우에도 응하지 않습니다. 안내된 관리 범위와 위생·안전 기준 안에서만 서비스가 제공됩니다.</p>
-<p>예약 방법과 필요한 정보는 <a href="/seoul/reservation/">예약 안내</a>에서 확인하세요.</p></section>
+<p>예약 방법과 필요한 정보는 <a href="/reservation/">예약 안내</a>에서 확인하세요.</p></section>
 """,
 )
 
 # ===== 고객센터 =====
 support = _page(
-    "seoul/support/",
+    "support/",
     "고객센터｜서울 출장마사지·홈타이 문의",
     "서울 출장마사지·홈타이 상담·문의 안내. 전화 상담 및 개인정보처리방침 확인.",
     "고객센터",
-    [("서울", "/seoul/"), ("고객센터", "")],
+    [("서울", "/"), ("고객센터", "")],
     f"""
 <section><h2>상담·문의 안내</h2>
 <p>서울 출장마사지·홈타이 관련 상담과 문의는 전화로 안내해 드립니다.</p>
@@ -92,21 +92,21 @@ support = _page(
 
 <section><h2>자주 찾는 안내</h2>
 <ul>
-<li><a href="/seoul/reservation/">예약 안내</a> — 예약 방법과 필요한 정보</li>
-<li><a href="/seoul/check/">이용 전 확인사항</a> — 방문 전 확인할 항목</li>
-<li><a href="/seoul/district/">행정구 안내</a> — 서울 25개 구별 안내</li>
-<li><a href="/seoul/support/privacy/">개인정보처리방침</a> — 개인정보 처리 기준</li>
+<li><a href="/reservation/">예약 안내</a> — 예약 방법과 필요한 정보</li>
+<li><a href="/check/">이용 전 확인사항</a> — 방문 전 확인할 항목</li>
+<li><a href="/district/">행정구 안내</a> — 서울 25개 구별 안내</li>
+<li><a href="/support/privacy/">개인정보처리방침</a> — 개인정보 처리 기준</li>
 </ul></section>
 """,
 )
 
 # ===== 개인정보처리방침 =====
 privacy = _page(
-    "seoul/support/privacy/",
+    "support/privacy/",
     "개인정보처리방침｜서울 출장마사지·홈타이",
     "서울 출장마사지·홈타이 개인정보 수집·이용·보관 및 처리 기준 안내입니다.",
     "개인정보처리방침",
-    [("서울", "/seoul/"), ("고객센터", "/seoul/support/"), ("개인정보처리방침", "")],
+    [("서울", "/"), ("고객센터", "/support/"), ("개인정보처리방침", "")],
     f"""
 <section><h2>개인정보 수집·이용</h2>
 <p>{BRAND}는 예약 상담에 필요한 최소한의 정보만 수집합니다. 수집 항목은 예약·상담 과정에서 제공되는 연락처와 방문 주소 등이며, 예약 안내와 서비스 제공 목적으로만 이용됩니다.</p></section>
@@ -134,15 +134,15 @@ _key_stations = [
 ]
 _station_chips = "".join(f"<li>{s}</li>" for s in _key_stations)
 station_index = _page(
-    "seoul/station/",
+    "station/",
     "서울 지하철역 출장마사지｜역세권별 홈타이 안내",
     "서울 주요 지하철역 출장마사지·홈타이 안내. 강남역, 잠실역, 홍대입구역 등 역세권 확인.",
     "서울 주요 지하철역별 안내",
-    [("서울", "/seoul/"), ("지하철역 안내", "")],
+    [("서울", "/"), ("지하철역 안내", "")],
     f"""
 <section><h2>서울 역세권별 안내</h2>
 <p>지하철역 안내는 역명 기준으로 인접 생활권과 가까운 행정동, 예약 기준을 정리합니다. 환승역도 노선별로 나누지 않고 역명 기준 하나로 안내하며, 출구별 페이지는 별도로 만들지 않습니다. 역명 기준 상세 페이지는 검색 유입과 본문 품질을 기준으로 단계적으로 제공됩니다.</p>
-<p>아래는 1차 안내 대상 주요 역입니다. 각 역이 속한 구는 <a href="/seoul/district/">행정구 안내</a>에서 함께 확인할 수 있습니다.</p>
+<p>아래는 1차 안내 대상 주요 역입니다. 각 역이 속한 구는 <a href="/district/">행정구 안내</a>에서 함께 확인할 수 있습니다.</p>
 <ul class="link-cloud">{_station_chips}</ul>
 </section>
 """,
@@ -159,30 +159,19 @@ _key_life = [
 ]
 _life_chips = "".join(f"<li>{s}</li>" for s in _key_life)
 life_index = _page(
-    "seoul/life/",
+    "life/",
     "서울 생활권 출장마사지｜생활권별 홈타이 안내",
     "서울 생활권별 출장마사지·홈타이 안내. 강남, 홍대, 여의도, 성수 생활권 확인.",
     "서울 생활권별 안내",
-    [("서울", "/seoul/"), ("생활권 안내", "")],
+    [("서울", "/"), ("생활권 안내", "")],
     f"""
 <section><h2>서울 생활권별 안내</h2>
 <p>생활권 안내는 행정구·행정동·역세권을 연결하는 허브 역할을 합니다. 같은 구 안에서도 생활권에 따라 이용 목적과 방문 동선이 다르므로, 행정구 안내와 함께 생활권 기준으로 확인하면 더 정확합니다. 생활권 상세 페이지는 단계적으로 제공됩니다.</p>
-<p>아래는 1차 안내 대상 주요 생활권입니다. 관련 행정구는 <a href="/seoul/district/">행정구 안내</a>에서 확인하세요.</p>
+<p>아래는 1차 안내 대상 주요 생활권입니다. 관련 행정구는 <a href="/district/">행정구 안내</a>에서 확인하세요.</p>
 <ul class="link-cloud">{_life_chips}</ul>
 </section>
 """,
     noindex=True,
 )
 
-# ===== 루트 리다이렉트 (/ → /seoul/) =====
-root = {
-    "path": "",
-    "title": "서울 출장마사지｜강남·잠실·홍대·여의도·성수 홈타이 안내",
-    "desc": "서울 출장마사지·홈타이 생활권별 안내. 강남, 잠실, 홍대, 여의도, 성수 확인.",
-    "h1": "서울 출장마사지",
-    "breadcrumb": [],
-    "body": '<meta http-equiv="refresh" content="0;url=/seoul/" /><p>서울 출장마사지 안내 페이지로 이동합니다. 자동으로 이동하지 않으면 <a href="/seoul/">여기를 클릭</a>하세요.</p>',
-    "noindex": True,
-}
-
-PAGES = [reservation, check, support, privacy, station_index, life_index, root]
+PAGES = [reservation, check, support, privacy, station_index, life_index]

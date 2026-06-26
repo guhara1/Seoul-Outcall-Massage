@@ -13,12 +13,12 @@ ZONE_GUIDES = {
 
 def _zone_body(z):
     cards = "".join(
-        f'<a href="/seoul/{slug}/" class="card"><h3>{DISTRICTS[slug]["name"]}</h3>'
+        f'<a href="/{slug}/" class="card"><h3>{DISTRICTS[slug]["name"]}</h3>'
         f'<p>{DISTRICTS[slug]["life"][0]} · {DISTRICTS[slug]["stations"][0]} 생활권</p>'
         f'<span class="card-arrow">→</span></a>'
         for slug in z["districts"]
     )
-    life_items = "".join(f'<li><a href="/seoul/life/">{l}</a></li>' for l in z["life"])
+    life_items = "".join(f'<li><a href="/life/">{l}</a></li>' for l in z["life"])
     stations_txt = ", ".join(z["stations"])
     gu_names = ", ".join(DISTRICTS[s]["name"] for s in z["districts"])
 
@@ -49,18 +49,18 @@ def _zone_body(z):
 <h2>{z['name']} 이용 안내</h2>
 {z['focus']}
 <p>{ZONE_GUIDES.get(z['slug'], '')}</p>
-<p>방문 전 자세한 사항은 <a href="/seoul/check/">이용 전 확인사항</a>과 <a href="/seoul/reservation/">예약 안내</a>를 참고하세요. 전체 행정구는 <a href="/seoul/district/">서울 25개 구 안내</a>에서 확인할 수 있습니다.</p>
+<p>방문 전 자세한 사항은 <a href="/check/">이용 전 확인사항</a>과 <a href="/reservation/">예약 안내</a>를 참고하세요. 전체 행정구는 <a href="/district/">서울 25개 구 안내</a>에서 확인할 수 있습니다.</p>
 </section>
 """
 
 
 def _make_zone_page(z):
     return {
-        "path": f"seoul/zone/{z['slug']}/",
-        "title": f"{z['name']} 출장마사지｜서울 권역별 홈타이 안내",
+        "path": f"zone/{z['slug']}/",
+        "title": f"{z['name']} 출장마사지·홈타이｜{'·'.join(z['life'][:3])} 생활권 안내",
         "desc": f"{z['name']} 출장마사지·홈타이 예약 전 포함 구와 대표 생활권을 확인하세요.",
         "h1": f"{z['name']} 출장마사지 안내",
-        "breadcrumb": [("서울", "/seoul/"), (z["name"], "")],
+        "breadcrumb": [("서울", "/"), (z["name"], "")],
         "body": _zone_body(z),
     }
 

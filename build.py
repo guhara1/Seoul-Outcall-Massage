@@ -294,24 +294,24 @@ def render_page(page: dict) -> str:
     <nav class="footer-col" aria-label="서비스 안내">
       <p class="footer-title">서비스</p>
       <ul>
-        <li><a href="/seoul/">서울 출장마사지</a></li>
-        <li><a href="/seoul/district/">행정구 안내</a></li>
-        <li><a href="/seoul/station/">지하철역 안내</a></li>
-        <li><a href="/seoul/life/">생활권 안내</a></li>
+        <li><a href="/">서울 출장마사지</a></li>
+        <li><a href="/district/">행정구 안내</a></li>
+        <li><a href="/station/">지하철역 안내</a></li>
+        <li><a href="/life/">생활권 안내</a></li>
       </ul>
     </nav>
     <nav class="footer-col" aria-label="이용 안내">
       <p class="footer-title">이용 안내</p>
       <ul>
-        <li><a href="/seoul/reservation/">예약안내</a></li>
-        <li><a href="/seoul/check/">이용 전 확인사항</a></li>
-        <li><a href="/seoul/support/">고객센터</a></li>
+        <li><a href="/reservation/">예약안내</a></li>
+        <li><a href="/check/">이용 전 확인사항</a></li>
+        <li><a href="/support/">고객센터</a></li>
       </ul>
     </nav>
     <nav class="footer-col" aria-label="정책 및 기준">
       <p class="footer-title">정책</p>
       <ul>
-        <li><a href="/seoul/support/privacy/">개인정보처리방침</a></li>
+        <li><a href="/support/privacy/">개인정보처리방침</a></li>
         <li><a href="https://t.me/googleseolab" target="_blank" rel="noopener nofollow">문의하기</a></li>
       </ul>
     </nav>
