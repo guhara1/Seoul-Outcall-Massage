@@ -8,6 +8,7 @@
 #    얇은 위치 페이지가 대량 색인되어 사이트 단위 품질 신호를 떨어뜨리는
 #    도어웨이 위험을 피하고, 본문이 1,500자 이상으로 보강된 동부터 색인한다.
 from .seoul_data import DISTRICTS, DISTRICT_ORDER, _zone_of
+from .site import PHONE, BRAND
 
 # 행정동 이름 → URL 슬러그 (구 경로 하위라 구 간 중복은 무방)
 DONG_SLUGS = {
@@ -206,6 +207,58 @@ DONG_CONTENT = {
 }
 
 
+# 방문 장소 유형별 안내 — 동의 설명(desc)에 담긴 특성으로 선택해 페이지마다 조합이 달라진다.
+# (지역명만 바꾼 복제가 아니라, 그 동의 실제 성격에 맞는 확인사항을 제공)
+TYPE_TIPS = [
+    (("업무지구", "오피스", "디지털단지", "금융", "지식산업", "테헤란"),
+     "<p><strong>업무지구·오피스</strong> — 이 일대는 오피스 빌딩과 사무실이 많아 평일 낮 방문 수요가 집중됩니다. 빌딩명과 층·호수, 로비 방문자 등록과 보안 게이트, 야간·주말 출입 제한 여부를 예약 전에 확인하면 도착 후 대기 없이 방문할 수 있습니다.</p>"),
+    (("오피스텔", "주상복합", "복합"),
+     "<p><strong>오피스텔·주상복합</strong> — 로비 안내데스크 경유와 엘리베이터 카드 태그, 방문자 등록 절차가 있는 건물이 많습니다. 정확한 건물명·호수와 함께 지하 주차장에서 올라가는 동선이 가능한지 미리 확인하면 편리합니다.</p>"),
+    (("대단지", "아파트", "재건축", "신축"),
+     "<p><strong>대단지 아파트</strong> — 단지가 넓어 단지명·동·호수와 가까운 출입구를 함께 알려주시면 방문이 빨라집니다. 공동현관 출입 방식과 방문 주차 가능 여부를 예약 시 확인하는 것이 좋습니다.</p>"),
+    (("빌라", "주택", "주거"),
+     "<p><strong>빌라·주택 주거권</strong> — 골목과 다세대가 섞여 있어 도로명 주소와 건물명, 진입 동선을 정확히 알려주시면 방문이 수월합니다. 주차가 어려운 골목이 많아 가까운 정차 위치를 함께 확인하면 좋습니다.</p>"),
+    (("상권", "패션", "카페", "먹자", "로데오"),
+     "<p><strong>상권·번화가</strong> — 저녁과 주말 유동 인구가 많고 일방통행·차량 진입 제한 구간이 있습니다. 가까운 역과 출입구를 기준으로 방문 동선을 잡고, 혼잡 시간대는 여유 있게 예약하는 것이 좋습니다.</p>"),
+    (("대학", "학원가"),
+     "<p><strong>대학가·학원가</strong> — 원룸·고시텔·소형 오피스텔이 밀집해 건물 출입 방식과 정확한 호수 확인이 특히 중요합니다. 야간 방문이 잦은 생활권이라 가능 시간대를 먼저 확인하면 좋습니다.</p>"),
+    (("호텔", "숙소", "외국인", "관광"),
+     "<p><strong>호텔·숙소 인접권</strong> — 숙소명과 객실, 체크인 완료 여부, 프런트 경유 필요 여부를 미리 확인하면 방문이 정확합니다. 숙소 정책상 외부 방문이 제한되는 경우가 있어 사전 확인이 필요합니다.</p>"),
+    (("환승", "터미널"),
+     "<p><strong>환승 거점</strong> — 여러 노선이 만나는 거점이라 유동 인구가 많습니다. 도착 출구와 건물 출입구를 분명히 정해두면 방문이 빠르고, 혼잡 시간대는 이동 시간을 여유 있게 잡는 것이 좋습니다.</p>"),
+    (("한강변",),
+     "<p><strong>한강변 주거권</strong> — 대단지가 한강을 따라 길게 이어져 진입로가 한정적입니다. 단지·동·호수와 가까운 출입구, 방문 주차 위치를 함께 확인하면 방문이 원활합니다.</p>"),
+    (("물류", "산업", "공항"),
+     "<p><strong>업무·산업권</strong> — 대형 건물과 단지가 많아 정확한 건물명과 출입구, 진입 차로 확인이 중요합니다. 이동 거리가 있는 인접권은 예약 시간을 여유 있게 잡는 것이 좋습니다.</p>"),
+]
+_GENERIC_TIP = (
+    "<p><strong>방문 전 공통 확인</strong> — 정확한 주소와 건물 유형, 공동현관·로비 출입 방식, 방문 주차 가능 여부, 희망 예약 시간을 미리 알려주시면 방문이 한결 원활합니다.</p>"
+)
+
+
+def _matched_tips(desc):
+    out = []
+    for kws, htmltip in TYPE_TIPS:
+        if any(k in desc for k in kws):
+            out.append(htmltip)
+    if len(out) < 2:
+        out.append(_GENERIC_TIP)
+    # 순서 유지 중복 제거
+    return "".join(dict.fromkeys(out))
+
+
+def _sources_section(gu_slug, gu_name, name):
+    """E-E-A-T — 운영·검수 바이라인 + 권위 있는 외부 출처(위키백과 자치구)."""
+    wiki = "https://ko.wikipedia.org/wiki/" + gu_name
+    return f"""
+<section id="source">
+<h2>{name} 안내 정보 및 출처</h2>
+<p><strong>작성·운영</strong>: {BRAND} 고객센터 · <a href="tel:{PHONE}">{PHONE}</a> (연중무휴 24시간 상담). 본 페이지는 {gu_name} {name} 일대 방문 예약 전 확인을 돕기 위한 지역 안내로, 실제 방문 가능 여부와 시간은 예약 시 안내됩니다.</p>
+<p><strong>지역 정보 참고</strong>: <a href="{wiki}" target="_blank" rel="noopener">위키백과 {gu_name}</a> · <a href="/{gu_slug}/">{gu_name} 전체 안내</a> · <a href="/check/">이용 전 확인사항</a></p>
+</section>
+"""
+
+
 def _tail_sections(gu_slug, d, name):
     """모든 행정동 페이지 공통 — 내부링크용(인접 행정동·생활권·예약 확인).
     인접 행정동 집합이 페이지마다 달라 본문 고유성에 기여한다."""
@@ -238,15 +291,22 @@ def _tail_sections(gu_slug, d, name):
 """
 
 
-def _composed_intro(gu_slug, d, name, desc):
-    """고유 본문 미등록 동의 기본 도입부(데이터 조합)."""
+def _auto_body(gu_slug, d, name, desc):
+    """고유 본문 미등록 동 — 동의 설명·인접동·방문 유형을 조합한 고유 본문(색인 가능)."""
     gu_name = d["name"]
     stations_txt = ", ".join(d["stations"][:5])
+    siblings = [n for (n, _) in d["dongs"] if n != name]
+    sib_phrase = "·".join(siblings[:3]) if siblings else gu_name
     return f"""
 <section id="intro">
 <h2>{name} 출장마사지·홈타이 방문 안내</h2>
-<p>{name}은(는) {gu_name} {desc}입니다. {name} 일대로 출장마사지·홈타이를 예약할 때는 정확한 방문 주소와 건물 유형, 예약 가능 시간을 먼저 확인하면 방문이 한결 수월합니다.</p>
-{d['character']}
+<p>{name}은(는) {gu_name}에 속한 행정동으로, {desc} 지역입니다. 같은 {gu_name} 안에서도 {name}은(는) 인접한 {sib_phrase} 생활권과 이어지면서 고유한 방문 동선을 가지므로, 예약 시 본인 위치를 행정동 기준으로 확인하면 방문 주소와 시간을 정확히 잡을 수 있습니다.</p>
+<p>{name} 일대로 출장마사지·홈타이를 예약할 때는 정확한 방문 주소와 건물 유형, 예약 가능 시간, 건물 출입 방식을 먼저 확인하는 것이 좋습니다. 아래에서 {name}의 방문 유형별 확인사항과 가까운 역, 인접 행정동을 정리했습니다.</p>
+</section>
+
+<section id="tips">
+<h2>{name} 방문 유형별 확인사항</h2>
+{_matched_tips(desc)}
 </section>
 
 <section id="stations">
@@ -261,11 +321,9 @@ def _make_dong_page(gu_slug, d, name, desc):
     gu_name = d["name"]
     rich = DONG_CONTENT.get((gu_slug, name))
     if rich:
-        body = rich + _tail_sections(gu_slug, d, name)
-        noindex = False  # 고유 본문(1,500자+) → 색인
+        body = rich + _tail_sections(gu_slug, d, name) + _sources_section(gu_slug, gu_name, name)
     else:
-        body = _composed_intro(gu_slug, d, name, desc) + _tail_sections(gu_slug, d, name)
-        noindex = True   # 도어웨이 위험 차단: 보강 전까지 색인 제외(크롤·링크 허용)
+        body = _auto_body(gu_slug, d, name, desc) + _tail_sections(gu_slug, d, name) + _sources_section(gu_slug, gu_name, name)
     return {
         "path": f"{gu_slug}/{slug}/",
         "title": f"{name} 출장마사지·홈타이｜{gu_name} 생활권 방문 안내",
@@ -273,7 +331,7 @@ def _make_dong_page(gu_slug, d, name, desc):
         "h1": f"{gu_name} {name} 출장마사지",
         "breadcrumb": [("서울", "/"), (gu_name, f"/{gu_slug}/"), (name, "")],
         "body": body,
-        "noindex": noindex,
+        "noindex": False,  # 모든 행정동 페이지 색인(고유·충분 본문)
     }
 
 

@@ -1,6 +1,7 @@
 # 서울 25개 행정구 페이지 + 행정구 인덱스
 from .seoul_data import DISTRICTS, DISTRICT_ORDER, ZONE_BY_SLUG, _zone_of
 from .seoul_dongs import DONG_SLUGS
+from .site import BRAND, PHONE
 
 # 구별 고유 예약·방문 팁 (지역명만 바꾼 복제 금지 — 각 구 특성 반영)
 GUIDES = {
@@ -90,6 +91,12 @@ def _district_body(gu_slug, d):
 <p>{d['name']}과(와) 생활권이 이어지는 인접 구 안내도 함께 확인하세요. 같은 <a href="{zone_url}">{zone_name}</a> 권역 안에서 방문 가능 지역을 넓게 볼 수 있습니다.</p>
 <ul>{adj_items}</ul>
 <p>전체 행정구는 <a href="/district/">서울 25개 구 안내</a>에서 확인할 수 있습니다.</p>
+</section>
+
+<section id="source">
+<h2>{d['name']} 안내 정보 및 출처</h2>
+<p><strong>작성·운영</strong>: {BRAND} 고객센터 · <a href="tel:{PHONE}">{PHONE}</a> (연중무휴 24시간 상담). 본 페이지는 {d['name']} 일대 방문 예약 전 확인을 돕기 위한 지역 안내입니다.</p>
+<p><strong>지역 정보 참고</strong>: <a href="https://ko.wikipedia.org/wiki/{d['name']}" target="_blank" rel="noopener">위키백과 {d['name']}</a> · <a href="/about/">운영 정보</a> · <a href="/check/">이용 전 확인사항</a></p>
 </section>
 """
 

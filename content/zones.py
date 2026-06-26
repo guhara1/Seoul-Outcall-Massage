@@ -1,5 +1,6 @@
 # 서울 5대 권역 허브 페이지
 from .seoul_data import ZONES, DISTRICTS
+from .site import BRAND, PHONE
 
 # 권역별 고유 안내 (복제 금지 — 권역 성격 반영)
 ZONE_GUIDES = {
@@ -50,6 +51,12 @@ def _zone_body(z):
 {z['focus']}
 <p>{ZONE_GUIDES.get(z['slug'], '')}</p>
 <p>방문 전 자세한 사항은 <a href="/check/">이용 전 확인사항</a>과 <a href="/reservation/">예약 안내</a>를 참고하세요. 전체 행정구는 <a href="/district/">서울 25개 구 안내</a>에서 확인할 수 있습니다.</p>
+</section>
+
+<section id="source">
+<h2>{z['name']} 안내 정보 및 출처</h2>
+<p><strong>작성·운영</strong>: {BRAND} 고객센터 · <a href="tel:{PHONE}">{PHONE}</a> (연중무휴 24시간 상담). 본 페이지는 {z['name']} 방문 예약 전 확인을 돕기 위한 권역 안내입니다.</p>
+<p><strong>지역 정보 참고</strong>: <a href="https://ko.wikipedia.org/wiki/서울특별시" target="_blank" rel="noopener">위키백과 서울특별시</a> · <a href="/about/">운영 정보</a> · <a href="/district/">서울 25개 구 안내</a></p>
 </section>
 """
 

@@ -19,9 +19,10 @@
   --orange-deep: #E85F26;
 
   /* ── 샴페인 골드 (프리미엄 보조 액센트) ── */
-  --gold: #d4b06a;
-  --gold-soft: #f1e2bb;
-  --gold-deep: #b08d45;
+  --gold: #d8b56e;
+  --gold-soft: #f4e7c2;
+  --gold-deep: #b8924a;
+  --champagne: #e7d2a0;
 
   /* ── 텍스트 ── */
   --text: #f3f5fb;
@@ -1094,3 +1095,69 @@ body::before {
   pointer-events: none;
 }
 
+
+/* ──────────────────────────────────────────
+   프리미엄 컴포넌트 오버레이 v2
+   본문 섹션 패널 · 헤딩 골드 액센트 · 바이라인/출처 카드
+   ────────────────────────────────────────── */
+
+/* 본문 H2 — 골드→오렌지 좌측 바 + 미세 그라디언트 텍스트 */
+.page-content h2 {
+  position: relative;
+  padding-left: 16px;
+}
+.page-content h2::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0.18em; bottom: 0.18em;
+  width: 4px; border-radius: 4px;
+  background: var(--grad-premium);
+}
+
+/* 본문 섹션 — 프리미엄 글래스 패널 오버레이 */
+.page-content article > section {
+  position: relative;
+  margin: 22px 0;
+  padding: 24px 26px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background:
+    var(--overlay-sheen),
+    linear-gradient(180deg, rgba(21, 27, 44, 0.55), rgba(15, 20, 34, 0.35));
+  box-shadow: var(--shadow-soft);
+}
+.page-content article > section::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius);
+  pointer-events: none;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+.page-content article > section > h2:first-child { margin-top: 0; }
+
+/* 운영·출처 바이라인 카드 (E-E-A-T 신뢰 블록) */
+#source, #byline {
+  border-color: rgba(216, 181, 110, 0.28) !important;
+  background:
+    linear-gradient(180deg, rgba(216, 181, 110, 0.07), rgba(15, 20, 34, 0.4)) !important;
+}
+#source h2::before, #byline h2::before {
+  background: linear-gradient(180deg, var(--champagne), var(--gold-deep));
+}
+#source p, #byline p { font-size: 0.92rem; color: var(--text-dim); }
+#source strong, #byline strong { color: var(--gold-soft); }
+
+/* 브레드크럼 — 프리미엄 미세 보더 */
+.breadcrumb {
+  padding: 10px 14px;
+  border: 1px solid var(--line-soft);
+  border-radius: 999px;
+  display: inline-block;
+  background: linear-gradient(180deg, rgba(21, 27, 44, 0.5), rgba(15, 20, 34, 0.3));
+}
+
+/* 모바일에서 섹션 패딩 축소 */
+@media (max-width: 720px) {
+  .page-content article > section { padding: 18px 16px; }
+}
