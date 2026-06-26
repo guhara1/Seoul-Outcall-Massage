@@ -1003,8 +1003,8 @@ body::before {
 /* 본문 콘텐츠는 오버레이 위로 */
 .site-header,
 .site-main,
-.site-footer,
-.call-fab { position: relative; z-index: 1; }
+.site-footer { position: relative; z-index: 1; }
+/* .call-fab 은 position:fixed 유지 — relative 로 덮어쓰지 않는다 */
 
 /* 카드 — 프리미엄 글래스 + 시인 오버레이 */
 .card {
@@ -1248,4 +1248,45 @@ body::before {
   .price-grid { grid-template-columns: 1fr; gap: 22px; }
   .price-section { padding: 30px 16px; }
   .price-note { min-height: 0; }
+}
+
+/* ===== 모바일 하단 고정 바 (전 페이지 공통) ===== */
+.mobile-bottombar { display: none; }
+@media (max-width: 720px) {
+  .mobile-bottombar {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr 1fr;
+    gap: 0;
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    z-index: 80;
+    background: linear-gradient(180deg, rgba(12, 16, 28, 0.96), rgba(5, 7, 16, 0.99));
+    border-top: 1px solid rgba(216, 181, 110, 0.28);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 -6px 24px rgba(0, 0, 0, 0.4);
+    padding-bottom: env(safe-area-inset-bottom, 0);
+  }
+  .mbb-item {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 3px; padding: 9px 4px 8px;
+    font-size: 0.72rem; font-weight: 700; line-height: 1;
+    color: var(--text-dim); text-decoration: none;
+    border-left: 1px solid rgba(255, 255, 255, 0.05);
+    transition: background var(--transition), color var(--transition);
+  }
+  .mbb-item:first-child { border-left: none; }
+  .mbb-item svg { width: 22px; height: 22px; fill: currentColor; }
+  .mbb-item span { letter-spacing: -0.01em; }
+  .mbb-call {
+    color: #2a1e07;
+    background: linear-gradient(135deg, #FFB84D, var(--orange-primary) 60%, #E85A2B);
+  }
+  .mbb-call svg { fill: #2a1e07; }
+  .mbb-reserve:active, .mbb-area:active { background: rgba(216, 181, 110, 0.12); color: var(--gold-soft); }
+  .mbb-reserve svg, .mbb-area svg { fill: var(--gold); }
+  /* 하단 바가 콘텐츠를 가리지 않도록 여백 확보 */
+  body { padding-bottom: calc(60px + env(safe-area-inset-bottom, 0)); }
+  /* 모바일에서는 원형 FAB 대신 하단 바 사용 */
+  .call-fab { display: none; }
 }
