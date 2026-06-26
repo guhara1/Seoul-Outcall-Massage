@@ -36,6 +36,20 @@ def text_length(body_html: str) -> int:
     return len(text)
 
 
+def is_noindex(page: dict, chars: int) -> bool:
+    """색인 여부 결정.
+    - noindex=True  → 항상 색인 제외(얇은 위치 페이지 도어웨이 차단 등)
+    - noindex=False → 글자수 게이트와 무관하게 색인(고유 주제·보강 페이지)
+    - 미지정        → 본문 글자수가 기준 미만이면 자동 noindex
+    """
+    explicit = page.get("noindex")
+    if explicit is True:
+        return True
+    if explicit is False:
+        return False
+    return chars < MIN_INDEX_CHARS
+
+
 def render_nav(current_path: str) -> str:
     items = []
     for label, href, children in NAV:
@@ -194,7 +208,7 @@ def render_page(page: dict) -> str:
     hero = page.get("hero", "")
 
     chars = text_length(body)
-    noindex = page.get("noindex", False) or chars < MIN_INDEX_CHARS
+    noindex = is_noindex(page, chars)
     robots = (
         '<meta name="robots" content="noindex,follow">'
         if noindex
@@ -362,7 +376,7 @@ def build() -> None:
             f.write(html_out)
 
         chars = text_length(page["body"])
-        noindex = page.get("noindex", False) or chars < MIN_INDEX_CHARS
+        noindex = is_noindex(page, chars)
         if not noindex:
             sitemap_urls.append(BASE_URL.rstrip("/") + "/" + path)
         report.append((path or "/", chars, "noindex" if noindex else "index"))
